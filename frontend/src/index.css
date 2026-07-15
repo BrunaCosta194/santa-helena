@@ -1,0 +1,225 @@
+/* ============================================================
+   Sacolão Santa Helena — Design System (redesign "cara de quitanda")
+   Flat design, prático. Verde e dourado tirados do logo real.
+   Fundo kraft (não pastel). Nunito nos títulos, Hanken Grotesk no corpo.
+   ============================================================ */
+
+:root {
+  /* — Paleta (do logo real) — */
+  --verde-marca:  #123B1E;  /* header, botões, rodapé */
+  --verde-badge:  #0E2A16;  /* selos e hover escuro */
+  --limao:        #8CC63F;  /* frescor, chip ativo, sucesso */
+  --limao-claro:  #DCEDC1;  /* fundo suave verde */
+  --limao-borda:  #B5D97A;  /* borda de destaque */
+  --dourado:      #E6C33C;  /* anel do selo, detalhes */
+  --dourado-claro:#F6E9B0;  /* fundos suaves com toque dourado */
+  --ambar:        #D97706;  /* acento quente (links "ver tudo", destaques) */
+  --ambar-escuro: #B45F04;
+  --creme:        #F7F1E3;  /* fundo/base geral — kraft quente */
+  --creme-quente: #EFE6D0;  /* superfícies suavemente elevadas — kraft 2 */
+  --papel:        #FFFFFF;  /* cards e campos */
+  --oferta:       #C0392B;  /* etiqueta de oferta — vermelho-tijolo de feira */
+  --oferta-suave: #F6DCD7;  /* fundo suave para ofertas */
+  --quente:       #9C6B3B;  /* cesta / tom quente */
+
+  /* — Tinta (texto) — */
+  --tinta-900:    #241C12;
+  --tinta-700:    #5C5240;
+  --tinta-500:    #83795F;
+  --tinta-300:    #C7BC9E;
+
+  /* — Compat: aliases herdados do doceria, remapeados para a paleta A —
+     Deixados para os CSS específicos continuarem funcionando. Semântica:
+       rosa-500/700 = CTA principal (verde marca)
+       rosa-300/100/50 = tons neutros de destaque suave (creme quente)
+       salvia = sucesso / verde alegre (limão)
+       lavanda = neutro sutil (dourado claro)
+       cacau = texto (tinta) */
+  --marfim:       var(--creme);
+  --rosa-50:      var(--limao-claro);
+  --rosa-100:     var(--dourado-claro);
+  --rosa-300:     var(--limao-borda);
+  --rosa-500:     var(--verde-marca);
+  --rosa-700:     var(--verde-badge);
+
+  --salvia-100:   var(--limao-claro);
+  --salvia-300:   var(--limao-borda);
+  --salvia-500:   var(--limao);
+  --salvia-700:   var(--verde-marca);
+
+  --lavanda-100:  var(--dourado-claro);
+  --lavanda-300:  var(--dourado);
+
+  --cacau-900:    var(--tinta-900);
+  --cacau-700:    var(--tinta-700);
+  --cacau-500:    var(--tinta-500);
+  --cacau-300:    var(--tinta-300);
+
+  /* — Semânticos — */
+  --fundo:        var(--creme);
+  --texto:        var(--tinta-900);
+  --texto-suave:  var(--tinta-700);
+  --texto-tenue:  var(--tinta-500);
+  --acento:       var(--verde-marca);
+  --acento-escuro:var(--verde-badge);
+  --linha:        #E3D9BE;  /* borda sutil sobre kraft */
+
+  /* — Tipografia — */
+  --fonte-display: "Nunito", "Segoe UI", system-ui, sans-serif;
+  --fonte-corpo: "Hanken Grotesk", "Segoe UI", system-ui, sans-serif;
+
+  /* — Raios — */
+  --r-sm: 10px;
+  --r-md: 16px;
+  --r-lg: 24px;
+  --r-xl: 34px;
+  --r-pill: 999px;
+
+  /* — Sombras verdes suaves — */
+  --sombra-sm: 0 1px 2px rgba(18, 59, 30, 0.06),
+    0 2px 6px rgba(18, 59, 30, 0.05);
+  --sombra-md: 0 4px 10px rgba(18, 59, 30, 0.07),
+    0 12px 28px rgba(18, 59, 30, 0.09);
+  --sombra-lg: 0 10px 24px rgba(18, 59, 30, 0.10),
+    0 26px 60px rgba(18, 59, 30, 0.13);
+
+  /* — Espaçamento base — */
+  --espaco: 8px;
+  --largura-max: 1120px;
+
+  --transicao: 220ms cubic-bezier(0.4, 0.14, 0.3, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--fonte-corpo);
+  color: var(--texto);
+  background-color: var(--fundo);
+  background-image:
+    radial-gradient(1100px 550px at 92% -8%, rgba(140, 198, 63, 0.16) 0%, transparent 55%),
+    radial-gradient(900px 500px at -6% 0%, rgba(18, 59, 30, 0.06) 0%, transparent 55%);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--fonte-display);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--texto);
+  margin: 0;
+}
+
+h1 {
+  font-size: clamp(2.4rem, 6vw, 4.2rem);
+}
+
+p { margin: 0; }
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+button { font-family: inherit; cursor: pointer; }
+ul { margin: 0; padding: 0; list-style: none; }
+
+/* — Utilitários de layout — */
+.container {
+  width: 100%;
+  max-width: var(--largura-max);
+  margin-inline: auto;
+  padding-inline: clamp(1.1rem, 4vw, 2.5rem);
+}
+
+.olho {
+  font-family: var(--fonte-corpo);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--verde-marca);
+}
+.olho--oferta {
+  color: var(--oferta);
+}
+
+:focus-visible {
+  outline: 2px solid var(--limao);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* — Animações de entrada — */
+@keyframes surgir {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.surgir {
+  animation: surgir 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+/* — Selo de status de pedido (compartilhado: conta + painel) — */
+.selo-status {
+  display: inline-block;
+  font-family: var(--fonte-corpo);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 0.28rem 0.65rem;
+  border-radius: 999px;
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+.selo-status--novo {
+  background: var(--dourado-claro);
+  color: #7A5C0F;
+  border-color: var(--dourado);
+}
+.selo-status--em_separacao {
+  background: var(--limao-claro);
+  color: var(--verde-marca);
+  border-color: var(--limao-borda);
+}
+.selo-status--a_caminho {
+  background: #DAECEE;
+  color: #256470;
+  border-color: #A9D3DA;
+}
+.selo-status--entregue {
+  background: var(--limao-claro);
+  color: var(--verde-marca);
+  border-color: var(--limao);
+}
+.selo-status--cancelado {
+  background: #EEE3DF;
+  color: #8A736B;
+  border-color: #D6C4BC;
+}

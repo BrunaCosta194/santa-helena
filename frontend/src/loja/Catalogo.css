@@ -21,13 +21,6 @@
   color: var(--acento-escuro);
 }
 
-.hero__sub {
-  margin-top: 1.2rem;
-  max-width: 44ch;
-  font-size: 1.1rem;
-  color: var(--texto-suave);
-}
-
 .hero__acoes {
   margin-top: 1.8rem;
   display: flex;

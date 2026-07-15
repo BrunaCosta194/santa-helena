@@ -70,16 +70,9 @@ export default function Catalogo() {
             <h1 className="hero__titulo">
               Fresco de <em>hoje</em>, no preço que cabe.
             </h1>
-            <p className="hero__sub">
-              Frutas, verduras, temperos, polpas e saladas prontas. A Joice
-              publica o que tem no dia — você pede pelo site e paga na entrega.
-            </p>
             <div className="hero__acoes">
               <Botao como="link" para="#catalogo" variante="primario">
-                Ver o que tem hoje
-              </Botao>
-              <Botao como="link" para="/conta/meus-pedidos" variante="fantasma">
-                Já sou cliente
+                Produtos
               </Botao>
             </div>
             <p className="hero__lema">

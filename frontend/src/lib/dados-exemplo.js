@@ -18,24 +18,9 @@ export const categorias = [
   { id: "cat-guloseimas", nome: "Guloseimas",  icone: "🥜", ordem: 7, ativo: true },
 ];
 
-// Fotos: placeholders coloridos por gradiente (SVG data URI) — trocados por
-// fotos reais do Storage depois. Um tom fresco por produto.
-function foto(cor1, cor2, emoji) {
-  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='800' height='800'>
-    <defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'>
-      <stop offset='0' stop-color='${cor1}'/><stop offset='1' stop-color='${cor2}'/>
-    </linearGradient></defs>
-    <rect width='800' height='800' fill='url(%23g)'/>
-    <text x='50%' y='54%' font-size='320' text-anchor='middle' dominant-baseline='middle'>${emoji}</text>
-  </svg>`;
-  return `data:image/svg+xml,${encodeURIComponent(svg).replace(/%23/g, "#")}`;
-}
-
-const CREME = "#F6F8F0";
-const CORES = ["#8CC63F", "#E0492E", "#E6C33C", "#9C6B3B"];
-function corPor(indice) {
-  return CORES[indice % CORES.length];
-}
+// Fotos reais: geradas para o catálogo e servidas de /public/produtos/<id>.jpg.
+// Os parâmetros `emoji` e `indiceCor` ficam mantidos por compatibilidade com a
+// lista abaixo (não usados no visual desde que as fotos entraram).
 
 // Monta um produto com os campos padrão (ativo, sem promoção) — reduz
 // repetição já que o catálogo real tem ~80 itens. `precoPromocional` é
@@ -46,7 +31,7 @@ function item(id, categoria_id, nome, descricao, emoji, tipo_venda, unidade_medi
     categoria_id,
     nome,
     descricao,
-    foto_url: foto(CREME, corPor(indiceCor), emoji),
+    foto_url: `/produtos/${id}.jpg`,
     tipo_venda,
     unidade_medida,
     preco,

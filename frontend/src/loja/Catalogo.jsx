@@ -91,33 +91,24 @@ export default function Catalogo() {
       {ofertas.length > 0 && filtro === TODAS && (
         <section className="ofertas container">
           <header className="ofertas__cabeca">
-            <span className="olho olho--oferta">Ofertas do dia</span>
-            <h2>Aproveite antes de acabar 🔥</h2>
+            <h2 className="secao-titulo secao-titulo--oferta">Ofertas do dia</h2>
+            <span className="secao-subtitulo">Aproveite antes de acabar 🔥</span>
           </header>
-          <div className="catalogo__grade">
-            {ofertas.slice(0, 4).map((p, i) => (
-              <ProdutoCard key={p.id} produto={p} indice={i} />
+          <div className="ofertas__carrossel">
+            {ofertas.map((p, i) => (
+              <div className="ofertas__item" key={p.id}>
+                <ProdutoCard produto={p} indice={i} compacta />
+              </div>
             ))}
           </div>
-          {ofertas.length > 4 && (
-            <div className="ofertas__mais">
-              <button
-                type="button"
-                className="ofertas__botao"
-                onClick={() => setFiltro(OFERTAS)}
-              >
-                Ver todas as ofertas →
-              </button>
-            </div>
-          )}
         </section>
       )}
 
       <section id="catalogo" className="catalogo container">
         <header className="catalogo__cabeca">
           <div>
-            <span className="olho">Catálogo do dia</span>
-            <h2 className="catalogo__titulo">{nomeCategoria}</h2>
+            <h2 className="secao-titulo">Catálogo do dia</h2>
+            <span className="secao-subtitulo">{nomeCategoria}</span>
           </div>
 
           <div className="catalogo__busca">
@@ -170,7 +161,7 @@ export default function Catalogo() {
         ) : (
           <div className="catalogo__grade">
             {visiveis.map((p, i) => (
-              <ProdutoCard key={p.id} produto={p} indice={i} />
+              <ProdutoCard key={p.id} produto={p} indice={i} compacta />
             ))}
           </div>
         )}

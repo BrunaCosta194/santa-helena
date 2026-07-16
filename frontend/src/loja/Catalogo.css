@@ -111,27 +111,39 @@
 .ofertas__cabeca {
   margin-bottom: 1.4rem;
 }
-.ofertas__cabeca h2 {
-  margin-top: 0.5rem;
-  font-size: clamp(1.7rem, 3.6vw, 2.2rem);
-}
-.ofertas__mais {
+.ofertas__carrossel {
   display: flex;
-  justify-content: center;
-  margin-top: 1.4rem;
+  gap: 0.7rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 0.1rem clamp(1.1rem, 4vw, 2.5rem) 0.6rem;
+  margin: 0 calc(-1 * clamp(1.1rem, 4vw, 2.5rem));
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
-.ofertas__botao {
-  background: none;
-  border: none;
-  color: var(--verde-marca);
-  font-weight: 700;
-  font-size: 0.95rem;
-  padding: 0.55rem 1rem;
-  text-decoration: underline;
-  text-underline-offset: 4px;
+.ofertas__carrossel::-webkit-scrollbar {
+  display: none;
 }
-.ofertas__botao:hover {
+
+.ofertas__item {
+  flex: 0 0 auto;
+  width: 148px;
+  scroll-snap-align: start;
+}
+
+/* — Títulos de seção (nome grande, contexto pequeno abaixo) — */
+.secao-titulo {
+  font-size: clamp(1.9rem, 4vw, 2.6rem);
+}
+.secao-titulo--oferta {
   color: var(--oferta);
+}
+.secao-subtitulo {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--texto-suave);
 }
 
 /* — Catálogo — */
@@ -166,15 +178,11 @@
   margin-bottom: 2rem;
 }
 
-.catalogo__titulo {
-  margin-top: 0.4rem;
-  font-size: clamp(1.9rem, 4vw, 2.6rem);
-}
-
 .filtros {
   display: flex;
   gap: 0.6rem;
   flex-wrap: wrap;
+  margin-bottom: 1.8rem;
 }
 
 .filtro {
@@ -211,12 +219,25 @@
 
 .catalogo__grade {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.7rem;
+}
+
+@media (min-width: 640px) {
+  .catalogo__grade {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+}
+
+@media (min-width: 980px) {
+  .catalogo__grade {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 .produto-esqueleto {
-  aspect-ratio: 4 / 5;
+  height: 114px;
   border-radius: var(--r-lg);
   background: linear-gradient(
     100deg,

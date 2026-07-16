@@ -8,9 +8,16 @@ comportamento significativo:**
 
 Pedidos online para um **sacolão/hortifruti** ("iFood do mercado"). A dona, **Joice**,
 publica o que tem hoje e as promoções; o cliente pede pelo site. Vende frutas, verduras,
-**temperos, polpas e saladas prontas**. Pagamento na entrega (online é fase 2). Login
-opcional, com base de clientes visível para o cliente (próprio histórico) e para a Joice
-(lista + histórico). Marca: **Sacolão Santa Helena** — *"Qualidade · Frescor · Economia"*.
+legumes, saladas prontas, bebidas, ovos e guloseimas. Pagamento na entrega (online é fase
+2). Login opcional, com base de clientes visível para o cliente (próprio histórico) e
+para a Joice (lista + histórico). Marca: **Sacolão Santa Helena** —
+*"Qualidade · Frescor · Economia"*.
+
+> **Nota:** o spec (seção 1) lista as categorias originais planejadas (Frutas, Verduras,
+> Temperos, Polpas, Saladas). O catálogo real que a Joice mandou não usa Temperos/Polpas
+> e trouxe categorias novas (Legumes, Bebidas, Ovos, Guloseimas) — ver seção "Catálogo
+> real" abaixo. O spec ficou desatualizado nesse ponto; as categorias vivas são as do
+> `dados-exemplo.js`.
 
 ## Redesign 2026-07-15 — "cara de quitanda"
 
@@ -53,6 +60,64 @@ Design) + logo real da Joice.
 modo mock (sem `.env`) mostrando catálogo/ofertas normalmente. Entrada
 `sacolao-frontend` adicionada em `~/.claude/skills/.claude/launch.json` pra preview.
 
+> A skill `ui-ux-pro-max` usada nessa pesquisa foi **desinstalada** depois a pedido da
+> Bruna ("muito ruim") — não tentar invocá-la em sessões futuras.
+
+## Catálogo real (2026-07-16)
+
+`frontend/src/lib/dados-exemplo.js` trocou de 12 produtos fictícios pra **~84 produtos
+reais** que a Joice mandou por WhatsApp (preços e itens do dia a dia dela). Categorias
+viraram 7: **Frutas, Verduras, Legumes, Saladas (prontos), Bebidas, Ovos, Guloseimas**
+(as 3 últimas são novas, Temperos/Polpas saíram por não ter item real). A função `item()`
+no arquivo monta cada produto (reduz repetição); tem parâmetro opcional
+`precoPromocional` pro item entrar em "Ofertas do dia".
+
+5 itens têm promoção ativa pra "Ofertas do dia" não ficar vazio: Banana prata (4,99),
+Abacaxi pérola (7,90), Alface crespa (2,99), Tomate italiano (4,49), Cenoura (6,49).
+Trocar/adicionar promoções é só editar `precoPromocional` no mock (ou, com Supabase
+ligado, pelo painel → Produtos).
+
+**Assunções feitas ao importar a lista da Joice (conferir com ela):**
+- **Morango**: sem unidade especificada na lista → botei "caixa" R$13,90.
+- **Melão picado**: ela mandou 2 preços diferentes (15,00 e 14,90 bandeja) → mantidos
+  como 2 itens separados (`p-melao-picado-cuba` e `p-melao-picado-bandeja`); pode ser
+  erro de digitação dela.
+- **Abóbora cabotiá descascada**: sem unidade clara → botei por kg R$9,90.
+- "Bala de gola" (provável erro de digitação) → corrigido pra "Bala de goma".
+- Nota dela de "pedidos grandes de frutas picadas, com 1 dia de antecedência" foi só pro
+  texto da `descricao` dos itens de fruta picada — sistema não tem agendamento de pedido
+  (`sob_encomenda` foi removido do modelo no spec original, seção 3).
+
+> `supabase/migrations/20260715120200_seed.sql` **ainda tem o catálogo fictício antigo**
+> (5 categorias, 12 produtos) — só o mock do frontend foi atualizado. Ao ligar o
+> Supabase de verdade, escrever um novo seed (ou script de import) com o catálogo real
+> antes de ir pro ar, senão o banco fica com dados de exemplo enquanto o site mockado
+> mostra outra coisa.
+
+## Home / cards da loja (2026-07-16)
+
+Mudanças de UX na home a pedido da Bruna, depois de ver print no celular:
+
+- **Card sem navegação:** `ProdutoCard.jsx` não é mais `<Link>` pra `/produto/:id` — é
+  `<article>` estático. Cliente adiciona direto no card, sem sair da tela. A rota
+  `produto/:id` (`Produto.jsx`) continua existindo mas **nada mais linka pra ela**.
+- **Adicionar com quantidade:** primeiro toque no "+" soma 1 passo (0,5kg pra `kg`, 1
+  unidade pro resto — mesmo `passoQuantidade()` de `lib/formato.js`). A partir daí o
+  botão vira um stepper `− quantidade +` embutido no card (lê/escreve direto no
+  `CarrinhoContexto`), sem precisar abrir o carrinho pra ajustar.
+- **Favoritos:** `loja/FavoritosContexto.jsx` (novo) — localStorage `sacolao-favoritos`,
+  mesmo padrão do `CarrinhoContexto`. Coração no canto da foto em todo `ProdutoCard`.
+  Não tem tela de "meus favoritos" ainda, só o toggle.
+- **Ofertas do dia:** virou **carrossel horizontal** (`Catalogo.css`
+  `.ofertas__carrossel` / `.ofertas__item`), cards no tamanho compacto (`compacta`),
+  scroll-snap, scrollbar escondida. Antes era grid 2×2 que empilhava vertical.
+- **Catálogo do dia:** cards compactos (`compacta`, imagem 64px, sem descrição) em vez
+  do card grande original — reduz scroll numa lista de ~80 itens.
+- **Hierarquia dos títulos invertida:** "Ofertas do dia" / "Catálogo do dia" agora são o
+  texto grande (`.secao-titulo`); o texto que antes era o `<h2>` grande virou subtítulo
+  pequeno abaixo (`.secao-subtitulo`).
+- `.filtros` (chips de categoria) ganhou `margin-bottom` — estava colado nos cards.
+
 ## Estado atual
 
 Fork do **doceria-bruna** já foi feito e o MVP (Fase 1) está **implementado**. O que
@@ -90,8 +155,9 @@ npm install
 npm run dev          # http://localhost:5173
 ```
 
-Sem `.env`, roda com dados de exemplo (12 produtos do mock). Com `.env` configurado,
-usa o Supabase real. O toggle é `lib/supabase.js` → `supabaseConfigurado`.
+Sem `.env`, roda com o catálogo real da Joice (~84 produtos, 7 categorias) do mock. Com
+`.env` configurado, usa o Supabase real (que ainda tem o seed fictício antigo — ver nota
+acima). O toggle é `lib/supabase.js` → `supabaseConfigurado`.
 
 ## Estrutura
 
@@ -109,12 +175,13 @@ sacolao-santa-helena/
 │       ├── main.jsx
 │       ├── index.css                    # design system (paleta A)
 │       ├── loja/
-│       │   ├── Catalogo.jsx             # hero + Ofertas + catálogo por categoria
-│       │   ├── Produto.jsx              # seletor de quantidade (kg / unidade)
+│       │   ├── Catalogo.jsx             # hero + Ofertas (carrossel) + catálogo por categoria
+│       │   ├── Produto.jsx              # seletor de quantidade (kg / unidade) — sem link de card
 │       │   ├── Carrinho.jsx
 │       │   ├── Checkout.jsx
 │       │   ├── Confirmacao.jsx
-│       │   └── CarrinhoContexto.jsx     # localStorage: "sacolao-carrinho"
+│       │   ├── CarrinhoContexto.jsx     # localStorage: "sacolao-carrinho"
+│       │   └── FavoritosContexto.jsx    # localStorage: "sacolao-favoritos"
 │       ├── conta/
 │       │   ├── AuthContexto.jsx         # supabase auth + perfil
 │       │   ├── Entrar.jsx               # email + Google
@@ -131,7 +198,7 @@ sacolao-santa-helena/
 │       └── lib/
 │           ├── supabase.js              # cliente + flag supabaseConfigurado
 │           ├── dados.js                 # leitura pública (com fallback mock)
-│           ├── dados-exemplo.js         # mock de 12 produtos
+│           ├── dados-exemplo.js         # catálogo real da Joice (~84 produtos, 7 categorias)
 │           ├── admin.js                 # CRUD do painel
 │           ├── api.js                   # invoca Edge Function criar-pedido
 │           └── formato.js               # moeda, precoAtual, estaEmOferta,
@@ -152,8 +219,10 @@ sacolao-santa-helena/
 
 - **categorias**: `id, nome, icone, ordem, ativo`
 - **produtos**: `id, categoria_id, nome, descricao, foto_url, tipo_venda ('kg'|'unidade'),
-  unidade_medida ('kg'|'maço'|'pote'|'pacote'|'bandeja'|'unidade'), preco,
-  preco_promocional (nullable), disponivel_hoje, ativo`
+  unidade_medida ('kg'|'maço'|'pote'|'pacote'|'bandeja'|'unidade'|...), preco,
+  preco_promocional (nullable), disponivel_hoje, ativo` — o catálogo real da Joice
+  também usa `'100g'` e `'caixa'` como `unidade_medida` (rótulo livre, exibido como
+  "por 100g" / "por caixa"; não é um enum fechado no código, só convenção do spec).
 - **zonas_entrega**: `id, nome_bairro, valor_frete, ativo`
 - **perfis**: `id, nome, telefone, endereco, papel ('cliente'|'admin'), desconto_1a_compra_usado`
 - **pedidos**: `id, numero, cliente_id, nome_contato, telefone, tipo_entrega, zona_id,

@@ -74,13 +74,16 @@ export default function ProdutoCard({ produto, indice = 0, compacta = false }) {
         <h3 className="produto-card__nome">{produto.nome}</h3>
         {!compacta && <p className="produto-card__desc">{produto.descricao}</p>}
         <div className="produto-card__rodape">
-          <div className="produto-card__precos">
+          <div className={`produto-card__precos ${emOferta ? "produto-card__precos--oferta" : ""}`}>
             {emOferta && (
               <span className="produto-card__preco-antigo">
-                {moeda(produto.preco)}
+                De <s>{moeda(produto.preco)}</s>
               </span>
             )}
-            <span className="produto-card__preco">{moeda(preco)}</span>
+            <span className={`produto-card__preco ${emOferta ? "produto-card__preco--oferta" : ""}`}>
+              {emOferta && <span className="produto-card__por">Por </span>}
+              {moeda(preco)}
+            </span>
             <span className="produto-card__unidade">
               {rotuloPreco(produto.tipo_venda, produto.unidade_medida)}
             </span>

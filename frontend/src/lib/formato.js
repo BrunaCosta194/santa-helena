@@ -24,13 +24,26 @@ export function estaEmOferta(produto) {
   );
 }
 
-// Passo mínimo por tipo de venda: kg vai de 0,5 em 0,5; unidade de 1 em 1.
+// Passo por tipo de venda: kg vai de 250g em 250g (0,25); unidade de 1 em 1.
+// Produtos vendidos por "100g" são tipo_venda "unidade" e andam de 1 em 1,
+// onde cada passo = 100g (tratado na formatação).
 export function passoQuantidade(tipoVenda) {
-  return tipoVenda === "kg" ? 0.5 : 1;
+  return tipoVenda === "kg" ? 0.25 : 1;
 }
 
 export function quantidadeInicial(tipoVenda) {
-  return tipoVenda === "kg" ? 1 : 1;
+  return tipoVenda === "kg" ? 0.25 : 1;
+}
+
+// Formata um peso em kg de forma legível: abaixo de 1kg mostra em gramas
+// ("250 g", "750 g"); a partir de 1kg mostra em kg ("1 kg", "1,25 kg").
+function formatarPeso(kg) {
+  if (kg < 1) return `${Math.round(kg * 1000)} g`;
+  const texto = new Intl.NumberFormat("pt-BR", {
+    minimumFractionDigits: kg % 1 === 0 ? 0 : 1,
+    maximumFractionDigits: 2,
+  }).format(kg);
+  return `${texto} kg`;
 }
 
 // Rótulo curto pra exibir junto do preço: "por kg", "por maço", "cada".
@@ -44,13 +57,10 @@ export function rotuloPreco(tipoVenda, unidadeMedida) {
 // "1,5 kg", "2 maços", "3 unidades".
 export function formatarQuantidade(quantidade, tipoVenda, unidadeMedida) {
   const q = Number(quantidade);
-  if (tipoVenda === "kg") {
-    const texto = new Intl.NumberFormat("pt-BR", {
-      minimumFractionDigits: q % 1 === 0 ? 0 : 1,
-      maximumFractionDigits: 2,
-    }).format(q);
-    return `${texto} kg`;
-  }
+  // Produtos por peso (kg): exibe em g/kg.
+  if (tipoVenda === "kg") return formatarPeso(q);
+  // Produtos por 100g: a quantidade é a contagem de porções de 100g.
+  if (unidadeMedida === "100g") return formatarPeso(q * 0.1);
   const inteiro = Math.round(q);
   const unidade = unidadeMedida && unidadeMedida !== "unidade"
     ? unidadeMedida

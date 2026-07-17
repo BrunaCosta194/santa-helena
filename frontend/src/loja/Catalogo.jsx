@@ -88,7 +88,7 @@ export default function Catalogo() {
         </div>
       </section>
 
-      {ofertas.length > 0 && filtro === TODAS && (
+      {ofertas.length > 0 && filtro !== OFERTAS && (
         <section className="ofertas container">
           <header className="ofertas__cabeca">
             <h2 className="secao-titulo secao-titulo--oferta">Ofertas do dia</h2>

@@ -266,3 +266,33 @@
   height: 28px;
   font-size: 1.05rem;
 }
+
+/* — Carrossel de ofertas: layout vertical, nome centralizado — */
+.ofertas__item .produto-card--compacta {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.ofertas__item .produto-card--compacta .produto-card__foto {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  flex: none;
+}
+
+.ofertas__item .produto-card--compacta .produto-card__corpo {
+  align-items: center;
+  text-align: center;
+  padding: 0.6rem 0.7rem 0.7rem;
+}
+
+.ofertas__item .produto-card--compacta .produto-card__nome {
+  text-align: center;
+}
+
+.ofertas__item .produto-card--compacta .produto-card__precos {
+  justify-content: center;
+}
+
+.ofertas__item .produto-card--compacta .produto-card__rodape {
+  align-items: center;
+}

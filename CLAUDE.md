@@ -27,12 +27,9 @@ feira. Trocado via pesquisa na skill `ui-ux-pro-max` (produto "Grocery", estilo 
 Design) + logo real da Joice.
 
 **O que mudou:**
-- **Logo real** aplicado: `frontend/src/assets/logo.png` (print do WhatsApp da Joice,
-  fundo preto ao redor do círculo). Usado em `Cabecalho.jsx`, `Rodape.jsx` e
-  `PainelLayout.jsx` via a classe global `.marca__selo` — círculo com
-  `object-fit:cover` + `transform:scale(1.42)` pra cortar o preto do print e sobrar só
-  o selo verde. **Quando a Joice mandar a arte original (idealmente com fundo
-  transparente), trocar o arquivo e pode remover o `scale(1.42)`.**
+- **Logo real** aplicado em `frontend/src/assets/logo.png`, usado em `Cabecalho.jsx`,
+  `Rodape.jsx` e `PainelLayout.jsx` via a classe global `.marca__selo`.
+  *(Atualizado em 2026-07-20 — ver "Logo e favicon oficiais" abaixo.)*
 - **Tipografia:** `Fraunces` (serifada) → **Nunito** (peso 800/900) nos títulos —
   `--fonte-display` em `index.css`. Corpo continua Hanken Grotesk. Import trocado em
   `index.html`.
@@ -50,8 +47,9 @@ Design) + logo real da Joice.
 - Ícones de emoji como ícone funcional em `PainelLayout.jsx` (itens de nav: 🧾🥬🗂️👥🛵⚙️) —
   o `ui-ux-pro-max` recomenda SVG (Heroicons/Lucide) no lugar; painel é interno da Joice,
   baixa prioridade vs. a loja pro cliente.
-- Emoji decorativo (placeholder de foto no hero, "Feito no capricho 🥬", etc.) — mantido
-  de propósito como placeholder até ter fotos reais dos produtos.
+- Emoji decorativo no **hero** (`.hero__foto` 🍎🥬🍅 em `Catalogo.jsx`) e textos tipo
+  "Feito no capricho 🥬" — ainda placeholder. Os **cards de produto já usam foto real**
+  (ver "Fotos do catálogo" abaixo); o hero não.
 - Aliases CSS antigos do doceria (`--rosa-*`, `--salvia-*`, `--lavanda-*`, `--cacau-*`)
   continuam remapeados pra paleta nova — não foram removidos, ~69 usos em 10 arquivos;
   seguro porque a indireção já existia, mas seria uma limpeza futura de nome.
@@ -101,8 +99,8 @@ Mudanças de UX na home a pedido da Bruna, depois de ver print no celular:
 - **Card sem navegação:** `ProdutoCard.jsx` não é mais `<Link>` pra `/produto/:id` — é
   `<article>` estático. Cliente adiciona direto no card, sem sair da tela. A rota
   `produto/:id` (`Produto.jsx`) continua existindo mas **nada mais linka pra ela**.
-- **Adicionar com quantidade:** primeiro toque no "+" soma 1 passo (0,5kg pra `kg`, 1
-  unidade pro resto — mesmo `passoQuantidade()` de `lib/formato.js`). A partir daí o
+- **Adicionar com quantidade:** primeiro toque no "+" soma 1 passo (`passoQuantidade()`
+  de `lib/formato.js` — ver "Passo de peso" abaixo pros valores atuais). A partir daí o
   botão vira um stepper `− quantidade +` embutido no card (lê/escreve direto no
   `CarrinhoContexto`), sem precisar abrir o carrinho pra ajustar.
 - **Favoritos:** `loja/FavoritosContexto.jsx` (novo) — localStorage `sacolao-favoritos`,
@@ -111,12 +109,137 @@ Mudanças de UX na home a pedido da Bruna, depois de ver print no celular:
 - **Ofertas do dia:** virou **carrossel horizontal** (`Catalogo.css`
   `.ofertas__carrossel` / `.ofertas__item`), cards no tamanho compacto (`compacta`),
   scroll-snap, scrollbar escondida. Antes era grid 2×2 que empilhava vertical.
-- **Catálogo do dia:** cards compactos (`compacta`, imagem 64px, sem descrição) em vez
-  do card grande original — reduz scroll numa lista de ~80 itens.
+- **Catálogo do dia:** cards compactos (`compacta`, sem descrição) em vez do card grande
+  original — reduz scroll numa lista de ~84 itens. *(O layout do `compacta` foi
+  refeito em 2026-07-20 — ver "Card do catálogo" abaixo.)*
 - **Hierarquia dos títulos invertida:** "Ofertas do dia" / "Catálogo do dia" agora são o
   texto grande (`.secao-titulo`); o texto que antes era o `<h2>` grande virou subtítulo
   pequeno abaixo (`.secao-subtitulo`).
 - `.filtros` (chips de categoria) ganhou `margin-bottom` — estava colado nos cards.
+
+## Fotos, logo e card do catálogo (2026-07-20)
+
+### Fotos do catálogo (84 imagens)
+
+Os placeholders de gradiente+emoji saíram. Cada produto agora tem foto em
+`frontend/public/produtos/<id>.jpg` (800×800, JPEG q82) e o mock monta
+``foto_url: `/produtos/${id}.jpg` `` direto no `item()` de `dados-exemplo.js` — o nome do
+arquivo **é o `id` do produto**, então basta trocar o `.jpg` mantendo o nome pra trocar
+uma foto.
+
+As imagens foram **geradas por IA**, não são fotos reais da loja da Joice. O gerador está
+fora do repo, em `~/Downloads/gerador-imagem/gerador_pollinations.py` (Pollinations/Flux,
+grátis, sem chave de API). Ele reaproveita a lista de produtos do script antigo do Gemini
+e tem um dicionário PT→EN: **o Flux erra feio com nome de produto em português**
+("cebolas roxas" virou outra coisa), então o prompt de estilo é em inglês e cada produto
+tem tradução. O script pula arquivos que já existem — apagar o `.jpg` e rodar de novo
+regenera só aquele.
+
+> **Fotos de Bebidas são o ponto fraco:** o Flux não desenha marca (Coca/Fanta/Sprite),
+> então saíram latas/garrafas genéricas — a de cola inclusive com cor errada. Trocar por
+> foto real quando der. Frutas brasileiras raras (caqui, atemoia, ponkan) saíram
+> aproximadas.
+
+> **Ao ligar o Supabase:** essas fotos são servidas do `public/` do frontend e só existem
+> porque o **mock** aponta pra elas. Com `.env` configurado, `foto_url` passa a vir da
+> tabela `produtos` — se o seed não tiver esses caminhos, o catálogo fica sem imagem. Ou
+> semear `foto_url = '/produtos/<id>.jpg'`, ou subir as imagens pro bucket `produtos` do
+> Storage e usar a URL pública.
+
+### Logo e favicon oficiais
+
+A Joice mandou o logo em alta (PDF, badge circular verde). Dele saíram, com máscara
+circular e **cantos transparentes**:
+
+- `frontend/src/assets/logo.png` (512px) — header, rodapé, painel
+- `frontend/public/favicon.png` (256px) e `apple-touch-icon.png` (180px)
+
+Como o PNG agora é o selo circular completo (e não mais um print com fundo preto), o
+`transform: scale(1.42)` do `.marca__selo img` virou **`scale(1.02)`** (só o suficiente
+pra esconder a borda suave da máscara). `public/favicon.svg` e `icons.svg` continuam lá
+mas o `index.html` só linka o `favicon.png` e o `apple-touch-icon.png`.
+
+### Passo de peso (250g / 100g)
+
+A pedido da Joice, quem vende por peso anda de **250g em 250g**:
+
+- `passoQuantidade()`: `kg` → **0,25** (era 0,5); `unidade` → 1.
+- Produtos por **100g** (`unidade_medida === "100g"`, ex.: alho, gengibre, uva granel,
+  amendoim) são `tipo_venda: "unidade"` onde **cada unidade = 100g**; andam de 100g em
+  100g naturalmente.
+- `formatarQuantidade()` mostra peso em grama abaixo de 1kg e em kg acima:
+  `250 g → 500 g → 750 g → 1 kg → 1,25 kg`. Os itens de 100g usam a mesma função
+  (`quantidade × 0,1` kg), então mostram `100 g → 200 g → … → 1 kg`.
+- `formatarQuantidadeCurta()` (nova) é usada **só no stepper do card compacto**: abrevia
+  a unidade (`2 un`, `1 bdj`, `1 cx`). Sem isso "2 unidades" não cabe no card estreito do
+  celular e empurra o botão "+" pra fora. O carrinho/resumo continua com o nome cheio.
+
+> **A Edge Function valida o mesmo passo.** `PASSO_KG` em
+> `supabase/functions/criar-pedido/index.ts` foi pra `0.25` junto. Se mudar o passo no
+> frontend, **mudar lá também** — senão o servidor recusa o pedido com "Quantidade
+> inválida".
+
+### Oferta com cara de oferta
+
+Card em promoção agora mostra **"De ~~R$ 9,50~~ / Por R$ 7,90"**, com o valor novo em
+vermelho (`--oferta`). No `ProdutoCard.jsx` o bloco de preço ganha
+`produto-card__precos--oferta`, `__preco--oferta` e um `<span class="__por">`.
+
+> Detalhe de CSS que já mordeu: a regra base `.produto-card__preco` (cor verde) aparece
+> **depois** no arquivo, então `.produto-card__preco--oferta` sozinho perdia por ordem de
+> declaração. Por isso a regra vermelha é `.produto-card__preco.produto-card__preco--oferta`
+> (2 classes).
+
+### Ofertas do dia em toda categoria
+
+O carrossel de ofertas só aparecia no filtro "Tudo". Agora aparece em qualquer categoria
+e some só na aba "🔥 Ofertas" (onde a grade abaixo já lista as mesmas ofertas):
+`ofertas.length > 0 && filtro !== OFERTAS` em `Catalogo.jsx`. No carrossel os cards são
+verticais com nome/preço centralizados (escopo `.ofertas__item`).
+
+### Card do catálogo — responsivo
+
+O público compra **pelo celular** e não pode rolar muito. O `compacta` é mobile-first:
+
+- **Celular (<640px):** linha — foto 72px à esquerda, texto à direita, 2 colunas na grade.
+  Card ~135px, ~10 produtos por tela.
+- **Desktop (≥640px):** card vertical, foto quadrada full-width (246px em 4 colunas).
+
+Três armadilhas resolvidas aí, todas fáceis de reintroduzir:
+
+1. **`min-width: 0` no `.produto-card__corpo`.** Item flex não encolhe por padrão
+   (`min-width: auto`): sem isso o conteúdo vazava pra fora do card e o
+   `overflow: hidden` **cortava o botão "+"** — dava pra adicionar, mas não aumentar.
+2. **A foto usa `align-self: stretch` + `aspect-ratio: auto` no celular.** Travada em
+   72px de altura num card de 135px, sobrava um bloco vazio embaixo (parecia
+   desalinhado). O bloco `@media (min-width: 640px)` **precisa restaurar
+   `aspect-ratio: 1/1`, `align-self: auto` e `min-height: 0`** — sem isso a foto do
+   desktop fica achatada (246×72).
+3. **Nome com altura fixa de 2 linhas** (`-webkit-line-clamp: 2` + `min-height`) pra
+   manter a fileira alinhada.
+
+### Nomes de produto encurtados
+
+Nome com mais de ~18 caracteres não cabe em 2 linhas no card do celular (a coluna de
+texto tem ~74px). 15 nomes foram encurtados em `dados-exemplo.js`; **o que saiu do nome
+foi pra `descricao`** (ex.: "Garrafa retornável.", "Bandeja com 30 ovos extra branco.").
+
+`Cheiro-verde` · `Ovos 30un` · `Cabotiá descascada` · `Coca-Cola 2L` · `Coca-Cola Zero 2L`
+· `Fanta Laranja 2L` · `Salada de frutas` · `Uva higienizada` · `Melão picado bdj` ·
+`Abóbora p/ doce` · `Amendoim temperado` · `Amendoim c/ casca` · `Amendoim (pote)` ·
+`Jujuba e bala`
+
+> Os nomes originais vieram da lista da Joice no WhatsApp. **Conferir com ela** se algum
+> encurtado conflita com o jeito que ela chama o produto. Ao adicionar produto novo,
+> manter o nome curto (≤ ~18 caracteres) ou ele trunca no celular.
+
+### Rolagem horizontal no celular (corrigida)
+
+Bug antigo: `.ofertas` usava `padding: 1rem 0 0.5rem`, que **zerava o padding lateral do
+`.container`**. O `.ofertas__carrossel` compensa esse padding com margem negativa pra
+sangrar até a borda — sem o padding, ele estourava ~35px e o site inteiro rolava pro
+lado. Agora `.ofertas` só define `padding-top`/`padding-bottom`. **Não voltar a usar
+`padding` shorthand nessa classe.**
 
 ## Estado atual
 
@@ -130,8 +253,9 @@ existe hoje:
   categorias e 12 produtos de exemplo, storage bucket `produtos`.
 - `supabase/functions/criar-pedido/` — Edge Function que recalcula preço no servidor
   (usa `preco_promocional` quando presente, valida `disponivel_hoje`).
-- Identidade visual A (verde `#123B1E`, limão `#8CC63F`, creme `#F6F8F0`, oferta
-  `#E0492E`) aplicada em `frontend/src/index.css`.
+- Identidade visual A aplicada em `frontend/src/index.css`, já com os ajustes do
+  redesign "cara de quitanda": verde `#123B1E`, limão `#8CC63F`, creme kraft
+  `#F7F1E3`, oferta vermelho-tijolo `#C0392B` (era `#E0492E`), dourado `#E6C33C`.
 
 **Pendências pra ir pro ar:**
 - Configurar `.env` no `frontend/` com `VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY`
@@ -142,8 +266,12 @@ existe hoje:
   `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_ANON_KEY`, `N8N_WEBHOOK_URL`.
 - Configurar o n8n + Evolution API pra escutar o webhook e mandar mensagem no
   WhatsApp da Joice (`configuracoes.whatsapp_joice`).
-- Trocar placeholders quando a Joice enviar o **logo em alta** (asset central) e
-  as **fotos reais** dos produtos (via upload no painel — vão pro Storage).
+- ~~Logo em alta~~ **feito** (2026-07-20). Fotos dos produtos: as 84 atuais são
+  **geradas por IA** e servidas do `public/` — quando a Joice mandar foto real, subir
+  pelo painel (vai pro Storage) ou trocar o `.jpg` mantendo o nome do `id`. Prioridade:
+  as 7 de **Bebidas**, que saíram genéricas.
+- **Semear `foto_url` no banco** (ou migrar as imagens pro Storage) antes de ligar o
+  Supabase, senão o catálogo real fica sem foto — ver nota em "Fotos do catálogo".
 - Promover uma conta pra `admin` no Supabase (`update perfis set papel = 'admin'
   where id = '<uuid>'`) pra acessar o painel.
 
@@ -167,9 +295,13 @@ sacolao-santa-helena/
 ├── README.md
 ├── docs/specs/                          # spec (fonte da verdade)
 ├── frontend/
-│   ├── index.html                       # meta + fontes Google
+│   ├── index.html                       # meta + fontes Google + favicon
 │   ├── package.json
 │   ├── vite.config.js
+│   ├── public/
+│   │   ├── produtos/<id>.jpg            # 84 fotos do catálogo (nome = id do produto)
+│   │   ├── favicon.png                  # logo circular 256px
+│   │   └── apple-touch-icon.png         # logo circular 180px
 │   └── src/
 │       ├── App.jsx                      # rotas
 │       ├── main.jsx
@@ -201,8 +333,8 @@ sacolao-santa-helena/
 │           ├── dados-exemplo.js         # catálogo real da Joice (~84 produtos, 7 categorias)
 │           ├── admin.js                 # CRUD do painel
 │           ├── api.js                   # invoca Edge Function criar-pedido
-│           └── formato.js               # moeda, precoAtual, estaEmOferta,
-│                                        # formatarQuantidade, passoQuantidade
+│           └── formato.js               # moeda, precoAtual, estaEmOferta, passoQuantidade,
+│                                        # formatarQuantidade, formatarQuantidadeCurta
 └── supabase/
     ├── config.toml
     ├── migrations/
@@ -244,8 +376,9 @@ sacolao-santa-helena/
   Functions e no n8n.
 - Aviso de WhatsApp é **assíncrono**: grava o pedido primeiro; falha no webhook
   não derruba o pedido.
-- Kg vai em passo de **0,5**; unidade em passo de **1**. Validado no cliente e no
-  servidor (Edge Function).
+- Kg vai em passo de **0,25** (250g); unidade em passo de **1**. Validado no cliente
+  (`passoQuantidade()`) **e** no servidor (`PASSO_KG` na Edge Function) — os dois
+  precisam bater, senão o pedido é recusado.
 
 ## Fluxo do WhatsApp (n8n + Evolution API)
 

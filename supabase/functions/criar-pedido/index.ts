@@ -14,7 +14,7 @@ import { corsHeaders, json } from "../_shared/cors.ts";
 
 interface ItemEntrada {
   produto_id: string;
-  quantidade: number; // kg (0.5, 1, 1.5…) ou nº de unidades
+  quantidade: number; // kg (0.25, 0.5, 0.75, 1…) ou nº de unidades
 }
 
 interface Corpo {
@@ -27,7 +27,9 @@ interface Corpo {
 
 // Passo mínimo por tipo de venda. Evita quantidades absurdas
 // (ex.: 0.001 kg) e mantém o preço arredondado.
-const PASSO_KG = 0.5;
+// ATENÇÃO: precisa bater com `passoQuantidade()` em frontend/src/lib/formato.js.
+// O cliente vende de 250g em 250g; com 0.5 aqui todo pedido de 250g/750g era recusado.
+const PASSO_KG = 0.25;
 const PASSO_UNIDADE = 1;
 
 function quantidadeValida(qtd: number, tipo: string): boolean {
@@ -111,7 +113,7 @@ Deno.serve(async (req) => {
 
     const qtd = Number(item.quantidade);
     if (!quantidadeValida(qtd, produto.tipo_venda)) {
-      const passo = produto.tipo_venda === "kg" ? "0,5" : "1";
+      const passo = produto.tipo_venda === "kg" ? "0,25" : "1";
       return json(
         { erro: `Quantidade inválida para "${produto.nome}" (passo de ${passo}).` },
         400,

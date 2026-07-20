@@ -86,7 +86,7 @@ export const produtos = [
   item("p-inhame", "cat-legumes", "Inhame", "Fresco, direto do sacolão.", "🥔", "kg", "kg", 6.99, 2),
   item("p-cara", "cat-legumes", "Cará", "Fresco, direto do sacolão.", "🥔", "kg", "kg", 9.90, 3),
   item("p-abobora-cabotia", "cat-legumes", "Abóbora cabotiá", "Fresca, direto do sacolão.", "🎃", "kg", "kg", 5.99, 0),
-  item("p-abobora-seca-doce", "cat-legumes", "Abóbora seca (p/ doce)", "Fresca, direto do sacolão.", "🎃", "kg", "kg", 4.99, 1),
+  item("p-abobora-seca-doce", "cat-legumes", "Abóbora p/ doce", "Fresca, direto do sacolão.", "🎃", "kg", "kg", 4.99, 1),
   item("p-abobora-moranga", "cat-legumes", "Abóbora moranga", "Fresca, direto do sacolão.", "🎃", "kg", "kg", 5.99, 2),
   item("p-batata-doce", "cat-legumes", "Batata doce", "Fresca, direto do sacolão.", "🍠", "kg", "kg", 2.99, 3),
   item("p-batata-doce-grande", "cat-legumes", "Batata doce grande", "Fresca, direto do sacolão.", "🍠", "kg", "kg", 6.99, 0),
@@ -107,38 +107,38 @@ export const produtos = [
   item("p-mandioca-descascada", "cat-legumes", "Mandioca descascada", "Já pronta pra cozinhar.", "🥔", "kg", "kg", 7.49, 3),
 
   // — Saladas e prontos —
-  item("p-salada-frutas-copo", "cat-saladas", "Salada de frutas (copo 500ml)", "Melão, manga, uva e mamão — copo de 500ml.", "🍇", "unidade", "unidade", 13.50, 0),
+  item("p-salada-frutas-copo", "cat-saladas", "Salada de frutas", "Melão, manga, uva e mamão — copo de 500ml.", "🍇", "unidade", "unidade", 13.50, 0),
   item("p-melao-picado-cuba", "cat-saladas", "Melão picado", "Higienizado e pronto pra consumir. Pedidos grandes: com 1 dia de antecedência.", "🍈", "unidade", "unidade", 15.00, 1),
   item("p-manga-picada", "cat-saladas", "Manga picada", "Higienizada e pronta pra consumir. Preço por bandeja. Pedidos grandes: com 1 dia de antecedência.", "🥭", "unidade", "bandeja", 12.00, 2),
-  item("p-uva-picada", "cat-saladas", "Uva sem semente higienizada", "Pronta pra consumir. Preço por bandeja. Pedidos grandes: com 1 dia de antecedência.", "🍇", "unidade", "bandeja", 15.00, 3),
+  item("p-uva-picada", "cat-saladas", "Uva higienizada", "Pronta pra consumir. Preço por bandeja. Pedidos grandes: com 1 dia de antecedência.", "🍇", "unidade", "bandeja", 15.00, 3),
   item("p-abacaxi-picado", "cat-saladas", "Abacaxi picado", "Higienizado e pronto pra consumir. Pedidos grandes: com 1 dia de antecedência.", "🍍", "unidade", "unidade", 16.00, 0),
-  item("p-melao-picado-bandeja", "cat-saladas", "Melão picado (bandeja)", "Higienizado e pronto pra consumir. Pedidos grandes: com 1 dia de antecedência.", "🍈", "unidade", "bandeja", 14.90, 1),
-  item("p-bandeja-cheiro-verde", "cat-saladas", "Bandeja cheiro-verde (salsa/coentro)", "Pronta pra temperar.", "🌿", "unidade", "bandeja", 7.00, 2),
+  item("p-melao-picado-bandeja", "cat-saladas", "Melão picado bdj", "Higienizado e pronto pra consumir. Pedidos grandes: com 1 dia de antecedência.", "🍈", "unidade", "bandeja", 14.90, 1),
+  item("p-bandeja-cheiro-verde", "cat-saladas", "Cheiro-verde", "Salsa e coentro. Bandeja pronta pra temperar.", "🌿", "unidade", "bandeja", 7.00, 2),
   item("p-mix-sopa", "cat-saladas", "Mix sopa", "Legumes prontos pra sopa. Preço por bandeja.", "🥕", "unidade", "bandeja", 8.00, 3),
-  item("p-abobora-cabotia-desc", "cat-saladas", "Abóbora cabotiá descascada", "Já pronta pra cozinhar.", "🎃", "kg", "kg", 9.90, 0),
+  item("p-abobora-cabotia-desc", "cat-saladas", "Cabotiá descascada", "Já pronta pra cozinhar.", "🎃", "kg", "kg", 9.90, 0),
   item("p-mix-salada-pote", "cat-saladas", "Mix salada no pote", "Pronta pra consumir. Preço por pote.", "🥗", "unidade", "pote", 12.00, 1),
 
   // — Bebidas (geladeira) —
-  item("p-coca-2l", "cat-bebidas", "Coca-Cola 2L retornável", "Gelada e pronta pra beber.", "🥤", "unidade", "unidade", 10.00, 1),
-  item("p-coca-zero-2l", "cat-bebidas", "Coca-Cola Zero 2L retornável", "Gelada e pronta pra beber.", "🥤", "unidade", "unidade", 10.00, 2),
-  item("p-fanta-laranja-2l", "cat-bebidas", "Fanta Laranja retornável", "Gelada e pronta pra beber.", "🥤", "unidade", "unidade", 10.00, 3),
+  item("p-coca-2l", "cat-bebidas", "Coca-Cola 2L", "Garrafa retornável. Gelada e pronta pra beber.", "🥤", "unidade", "unidade", 10.00, 1),
+  item("p-coca-zero-2l", "cat-bebidas", "Coca-Cola Zero 2L", "Garrafa retornável. Gelada e pronta pra beber.", "🥤", "unidade", "unidade", 10.00, 2),
+  item("p-fanta-laranja-2l", "cat-bebidas", "Fanta Laranja 2L", "Garrafa retornável. Gelada e pronta pra beber.", "🥤", "unidade", "unidade", 10.00, 3),
   item("p-coca-lata", "cat-bebidas", "Coca-Cola lata 350ml", "Gelada e pronta pra beber.", "🥤", "unidade", "unidade", 5.00, 0),
   item("p-fanta-uva-lata", "cat-bebidas", "Fanta Uva lata 350ml", "Gelada e pronta pra beber.", "🥤", "unidade", "unidade", 5.00, 1),
   item("p-sprite-lata", "cat-bebidas", "Sprite lata 350ml", "Gelada e pronta pra beber.", "🥤", "unidade", "unidade", 5.00, 2),
   item("p-agua-coco", "cat-bebidas", "Água de coco 200ml", "Gelada e pronta pra beber.", "🥥", "unidade", "unidade", 3.00, 3),
 
   // — Ovos —
-  item("p-ovos-bandeja-30", "cat-ovos", "Bandeja com 30 ovos extra branco", "Fresquinhos, direto do produtor.", "🥚", "unidade", "unidade", 20.00, 0),
+  item("p-ovos-bandeja-30", "cat-ovos", "Ovos 30un", "Bandeja com 30 ovos extra branco. Fresquinhos, direto do produtor.", "🥚", "unidade", "unidade", 20.00, 0),
   item("p-ovos-duzia", "cat-ovos", "Ovos (dúzia)", "Fresquinhos, direto do produtor.", "🥚", "unidade", "unidade", 10.00, 1),
   item("p-ovos-unidade", "cat-ovos", "Ovo branco (unidade)", "Fresquinho, direto do produtor.", "🥚", "unidade", "unidade", 1.50, 2),
 
   // — Guloseimas —
-  item("p-amendoim-verdinho", "cat-guloseimas", "Amendoim verdinho temperado", "Docinho pra adoçar o pedido. Preço por 100g.", "🥜", "unidade", "100g", 2.00, 3),
-  item("p-amendoim-torrado", "cat-guloseimas", "Amendoim torrado c/casca", "Docinho pra adoçar o pedido. Preço por 100g.", "🥜", "unidade", "100g", 2.00, 0),
+  item("p-amendoim-verdinho", "cat-guloseimas", "Amendoim temperado", "Docinho pra adoçar o pedido. Preço por 100g.", "🥜", "unidade", "100g", 2.00, 3),
+  item("p-amendoim-torrado", "cat-guloseimas", "Amendoim c/ casca", "Docinho pra adoçar o pedido. Preço por 100g.", "🥜", "unidade", "100g", 2.00, 0),
   item("p-jujuba", "cat-guloseimas", "Jujuba", "Docinho pra adoçar o pedido. Preço por 100g.", "🍬", "unidade", "100g", 3.00, 1),
   item("p-bala-goma", "cat-guloseimas", "Bala de goma", "Docinho pra adoçar o pedido. Preço por 100g.", "🍬", "unidade", "100g", 3.00, 2),
-  item("p-pote-amendoim", "cat-guloseimas", "Pote amendoim salgado e doce", "Docinho pra adoçar o pedido. Preço por pote.", "🥜", "unidade", "pote", 5.00, 3),
-  item("p-pote-jujuba-bala", "cat-guloseimas", "Pote jujuba e bala de goma", "Docinho pra adoçar o pedido. Preço por pote.", "🍬", "unidade", "pote", 5.00, 0),
+  item("p-pote-amendoim", "cat-guloseimas", "Amendoim (pote)", "Docinho pra adoçar o pedido. Preço por pote.", "🥜", "unidade", "pote", 5.00, 3),
+  item("p-pote-jujuba-bala", "cat-guloseimas", "Jujuba e bala", "Docinho pra adoçar o pedido. Preço por pote.", "🍬", "unidade", "pote", 5.00, 0),
 ];
 
 export const zonasEntrega = [

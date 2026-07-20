@@ -53,6 +53,26 @@ export function rotuloPreco(tipoVenda, unidadeMedida) {
   return `por ${unidadeMedida}`;
 }
 
+// Versão curta pro stepper do card compacto: no celular o card é estreito e
+// "2 unidades" empurra o botão "+" pra fora. Peso continua igual ("250 g").
+const UNIDADE_CURTA = {
+  unidade: "un",
+  bandeja: "bdj",
+  caixa: "cx",
+  pacote: "pct",
+  pote: "pote",
+  maço: "maço",
+};
+
+export function formatarQuantidadeCurta(quantidade, tipoVenda, unidadeMedida) {
+  const q = Number(quantidade);
+  if (tipoVenda === "kg") return formatarPeso(q);
+  if (unidadeMedida === "100g") return formatarPeso(q * 0.1);
+  const inteiro = Math.round(q);
+  const unidade = UNIDADE_CURTA[unidadeMedida] ?? unidadeMedida ?? "un";
+  return `${inteiro} ${unidade}`;
+}
+
 // Formata a quantidade escolhida para exibir no carrinho / resumo.
 // "1,5 kg", "2 maços", "3 unidades".
 export function formatarQuantidade(quantidade, tipoVenda, unidadeMedida) {

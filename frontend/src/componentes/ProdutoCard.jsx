@@ -5,6 +5,7 @@ import {
   rotuloPreco,
   passoQuantidade,
   formatarQuantidade,
+  formatarQuantidadeCurta,
 } from "../lib/formato";
 import { useCarrinho } from "../loja/CarrinhoContexto";
 import { useFavoritos } from "../loja/FavoritosContexto";
@@ -98,7 +99,9 @@ export default function ProdutoCard({ produto, indice = 0, compacta = false }) {
                 −
               </button>
               <span>
-                {formatarQuantidade(quantidade, produto.tipo_venda, produto.unidade_medida)}
+                {compacta
+                  ? formatarQuantidadeCurta(quantidade, produto.tipo_venda, produto.unidade_medida)
+                  : formatarQuantidade(quantidade, produto.tipo_venda, produto.unidade_medida)}
               </span>
               <button
                 type="button"

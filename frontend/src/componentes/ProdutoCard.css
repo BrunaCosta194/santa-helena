@@ -202,21 +202,45 @@
   color: var(--texto);
 }
 
-/* — Variante compacta (catálogo do dia): foto grande em cima, texto embaixo.
-   Antes era layout em linha com foto 64px; agora é vertical pra dar destaque
-   ao produto e eliminar o espaço em branco. — */
+/* — Variante compacta (catálogo do dia) —
+   Celular: linha compacta (foto à esquerda) pra caber muito produto na tela
+   sem rolagem longa. Desktop (≥640px): card vertical com foto grande. */
+.produto-card--compacta {
+  flex-direction: row;
+  align-items: center;
+}
+
 .produto-card--compacta .produto-card__foto {
   aspect-ratio: 1 / 1;
-  width: 100%;
+  width: 72px;
+  flex: 0 0 72px;
+}
+
+.produto-card--compacta .produto-card__selo {
+  top: 0.3rem;
+  left: 0.3rem;
+  font-size: 0.55rem;
+  padding: 0.16rem 0.4rem;
+}
+
+.produto-card--compacta .produto-card__favorito {
+  top: 0.25rem;
+  right: 0.25rem;
+  width: 26px;
+  height: 26px;
+}
+.produto-card--compacta .produto-card__favorito svg {
+  width: 13px;
+  height: 13px;
 }
 
 .produto-card--compacta .produto-card__corpo {
-  padding: 0.7rem 0.85rem 0.85rem;
-  gap: 0.35rem;
+  padding: 0.5rem 0.6rem;
+  gap: 0.15rem;
 }
 
 .produto-card--compacta .produto-card__nome {
-  font-size: 1rem;
+  font-size: 0.85rem;
   line-height: 1.2;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -225,19 +249,110 @@
 }
 
 .produto-card--compacta .produto-card__rodape {
-  padding-top: 0.5rem;
+  padding-top: 0.4rem;
 }
 
 .produto-card--compacta .produto-card__preco {
-  font-size: 1.08rem;
+  font-size: 1rem;
 }
 
 .produto-card--compacta .produto-card__preco-antigo {
-  font-size: 0.72rem;
+  font-size: 0.7rem;
 }
 
 .produto-card--compacta .produto-card__unidade {
-  font-size: 0.72rem;
+  font-size: 0.7rem;
+}
+
+/* No card estreito do celular o preço não pode quebrar linha: sem isso o
+   bloco "De / Por / unidade" da oferta triplica a altura da linha. */
+.produto-card--compacta .produto-card__precos {
+  gap: 0;
+}
+.produto-card--compacta .produto-card__preco,
+.produto-card--compacta .produto-card__preco-antigo,
+.produto-card--compacta .produto-card__unidade {
+  white-space: nowrap;
+}
+
+.produto-card--compacta .produto-card__add {
+  width: 28px;
+  height: 28px;
+  font-size: 1.05rem;
+}
+.produto-card--compacta .produto-card__stepper button {
+  width: 24px;
+  height: 24px;
+  font-size: 0.9rem;
+}
+.produto-card--compacta .produto-card__stepper span {
+  font-size: 0.75rem;
+  min-width: auto;
+}
+
+@media (min-width: 640px) {
+  .produto-card--compacta {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .produto-card--compacta .produto-card__foto {
+    width: 100%;
+    flex: none;
+  }
+
+  .produto-card--compacta .produto-card__selo {
+    top: 0.8rem;
+    left: 0.8rem;
+    font-size: 0.72rem;
+    padding: 0.32rem 0.7rem;
+  }
+
+  .produto-card--compacta .produto-card__favorito {
+    top: 0.6rem;
+    right: 0.6rem;
+    width: 32px;
+    height: 32px;
+  }
+  .produto-card--compacta .produto-card__favorito svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .produto-card--compacta .produto-card__corpo {
+    padding: 0.7rem 0.85rem 0.85rem;
+    gap: 0.35rem;
+  }
+
+  .produto-card--compacta .produto-card__nome {
+    font-size: 1rem;
+  }
+
+  .produto-card--compacta .produto-card__rodape {
+    padding-top: 0.5rem;
+  }
+
+  .produto-card--compacta .produto-card__preco {
+    font-size: 1.08rem;
+  }
+
+  .produto-card--compacta .produto-card__precos {
+    gap: 0.1rem;
+  }
+
+  .produto-card--compacta .produto-card__add {
+    width: 36px;
+    height: 36px;
+    font-size: 1.3rem;
+  }
+  .produto-card--compacta .produto-card__stepper button {
+    width: 28px;
+    height: 28px;
+    font-size: 1.05rem;
+  }
+  .produto-card--compacta .produto-card__stepper span {
+    font-size: 0.85rem;
+  }
 }
 
 /* — Carrossel de ofertas: layout vertical, nome centralizado — */

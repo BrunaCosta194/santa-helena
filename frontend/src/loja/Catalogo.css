@@ -105,8 +105,11 @@
 }
 
 /* — Ofertas do dia (destaque na home) — */
+/* Só vertical: o padding lateral vem do .container e é o que o carrossel
+   compensa com margem negativa (sem isso, estoura a largura no celular). */
 .ofertas {
-  padding: 1rem 0 0.5rem;
+  padding-top: 1rem;
+  padding-bottom: 0.5rem;
 }
 .ofertas__cabeca {
   margin-bottom: 1.4rem;
@@ -217,10 +220,12 @@
   color: #fff;
 }
 
+/* Celular: 2 colunas de linhas compactas — o cliente vê muitos produtos sem
+   rolar muito. A partir de 640px vira grade de cards verticais com foto grande. */
 .catalogo__grade {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 0.7rem;
+  gap: 0.55rem;
 }
 
 @media (min-width: 640px) {
